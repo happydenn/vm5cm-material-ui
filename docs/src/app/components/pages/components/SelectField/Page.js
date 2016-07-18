@@ -17,6 +17,8 @@ import selectFieldExampleFloatingLabelCode from '!raw!./ExampleFloatingLabel';
 import SelectFieldExampleError from './ExampleError';
 import selectFieldExampleErrorCode from '!raw!./ExampleError';
 import selectFieldCode from '!raw!material-ui/SelectField/SelectField';
+import SelectFieldExampleMultiple from './ExampleMultiple';
+import selectFieldExampleMultipleCode from '!raw!./ExampleMultiple';
 
 const SelectFieldPage = () => (
   <div>
@@ -51,6 +53,13 @@ const SelectFieldPage = () => (
       code={selectFieldExampleErrorCode}
     >
       <SelectFieldExampleError />
+    </CodeExample>
+    <CodeExample
+      title="Multiple example"
+      description={descriptions.multiple}
+      code={selectFieldExampleMultipleCode}
+    >
+      <SelectFieldExampleMultiple />
     </CodeExample>
     <PropTypeDescription code={selectFieldCode} />
   </div>

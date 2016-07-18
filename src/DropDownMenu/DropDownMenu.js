@@ -123,6 +123,11 @@ class DropDownMenu extends Component {
      */
     menuStyle: PropTypes.object,
     /**
+     * If true, `value` must be an array and the menu will support
+     * multiple selections.
+     */
+    multiple: PropTypes.bool,
+    /**
      * Callback function fired when a menu item is clicked, other than the one currently selected.
      *
      * @param {object} event TouchTap event targeting the menu item that was clicked.
@@ -152,6 +157,7 @@ class DropDownMenu extends Component {
     animated: true,
     autoWidth: true,
     disabled: false,
+    multiple: false,
     openImmediately: false,
     maxHeight: 500,
   };
@@ -231,13 +237,15 @@ class DropDownMenu extends Component {
 
   handleItemTouchTap = (event, child, index) => {
     event.persist();
-    this.setState({
-      open: false,
-    }, () => {
-      if (this.props.onChange) {
-        this.props.onChange(event, index, child.props.value);
-      }
-    });
+    if (!this.props.multiple) {    
+  	  this.setState({
+        open: false,
+      }, () => {
+        if (this.props.onChange) {
+          this.props.onChange(event, index, child.props.value);
+        }
+      });
+    }
   };
 
   render() {
@@ -268,10 +276,18 @@ class DropDownMenu extends Component {
     const styles = getStyles(this.props, this.context);
 
     let displayValue = '';
+    const displayValueArray = [];
     React.Children.forEach(children, (child) => {
-      if (value === child.props.value) {
-        // This will need to be improved (in case primaryText is a node)
-        displayValue = child.props.label || child.props.primaryText;
+      if (!this.props.multiple) {
+        if (value === child.props.value) {
+          // This will need to be improved (in case primaryText is a node)
+          displayValue = child.props.label || child.props.primaryText;
+        }
+      } else {
+        if (value.indexOf(child.props.value) !== -1) {
+          displayValueArray.push(child.props.label || child.props.primaryText);
+          displayValue = displayValueArray.join(', ');
+        }
       }
     });
 
@@ -315,6 +331,7 @@ class DropDownMenu extends Component {
             style={menuStyle}
             listStyle={listStyle}
             onItemTouchTap={this.handleItemTouchTap}
+            multiple={this.props.multiple}
           >
             {children}
           </Menu>

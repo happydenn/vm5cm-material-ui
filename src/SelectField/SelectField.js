@@ -88,6 +88,11 @@ class SelectField extends Component {
      * Override the default max-height of the underlying `DropDownMenu` element.
      */
     maxHeight: PropTypes.number,
+    /*
+     * If true, `value` must be an array and the menu will support
+     * multiple selections.
+     */
+    multiple: PropTypes.bool,
     /**
      * Override the inline-styles of the underlying `DropDownMenu` element.
      */
@@ -138,6 +143,7 @@ class SelectField extends Component {
     autoWidth: false,
     disabled: false,
     fullWidth: false,
+    multiple: false,
   };
 
   static contextTypes = {
@@ -206,6 +212,8 @@ class SelectField extends Component {
           value={value}
           onChange={onChange}
           maxHeight={maxHeight}
+          multiple={this.props.multiple}
+          {...other}
         >
           {children}
         </DropDownMenu>
